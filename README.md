@@ -22,7 +22,7 @@ Matrix class in C++ with operators implemented.
 ### get(y,x)
 ### put(y,x,value)
 
-    // example :
+## example :
     Matrix<int> A(4,5);
     Matrix<int> B(4,5);
     Matrix<int> C(5,6);
