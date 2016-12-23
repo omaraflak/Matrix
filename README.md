@@ -21,6 +21,7 @@ Matrix class in C++ with operators implemented.
 ### fill(value)
 ### get(y,x)
 ### put(y,x,value)
+### cout << Matrix;
 
 ## example :
     Matrix<int> A(4,5);
@@ -43,3 +44,5 @@ Matrix class in C++ with operators implemented.
     // you can combine operation :
 
     Matrix<int> D = (A+B).dot(C).applyFunction(multiplyBy2Function);
+    
+    cout << D << endl;
