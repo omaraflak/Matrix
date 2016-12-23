@@ -12,23 +12,15 @@ Matrix class in C++ with operators implemented.
     Matrix<type_of_variable> matrix();
 
 ## Methods available :
-1 add(Matrix), add(value), +
-
-2) subtract(Matrix), subtract(value), -
-
-3) multiply(Matrix), multiply(value), *
-
-4) dot(Matrix)
-
-5) transpose()
-
-6) applyFunction(function)
-
-7) fill(value)
-
-8) get(y,x)
-
-9) put(y,x,value)
+### add(Matrix), add(value), +
+### subtract(Matrix), subtract(value), -
+### multiply(Matrix), multiply(value), *
+### dot(Matrix)
+### transpose()
+### applyFunction(function)
+### fill(value)
+### get(y,x)
+### put(y,x,value)
 
     // example :
     Matrix<int> A(4,5);
