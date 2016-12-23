@@ -8,7 +8,7 @@ using namespace std;
 
 double random(double x)
 {
-    return (double)(rand() % 10000 + 1)/10000-0.5;
+    return (double)(rand() % 10000 + 1)/10000;
 }
 
 int main(int argc, char *argv[])
