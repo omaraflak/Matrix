@@ -12,7 +12,7 @@ Matrix class in C++ with operators implemented.
     Matrix<type_of_variable> matrix();
 
 ## Methods available :
-### add(Matrix), add(value), +
+#### add(Matrix), add(value), +
 ### subtract(Matrix), subtract(value), -
 ### multiply(Matrix), multiply(value), *
 ### dot(Matrix)
