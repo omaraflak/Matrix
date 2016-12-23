@@ -13,15 +13,15 @@ Matrix class in C++ with operators implemented.
 
 ## Methods available :
 #### add(Matrix), add(value), +
-### subtract(Matrix), subtract(value), -
-### multiply(Matrix), multiply(value), *
-### dot(Matrix)
-### transpose()
-### applyFunction(function)
-### fill(value)
-### get(y,x)
-### put(y,x,value)
-### cout << Matrix;
+#### subtract(Matrix), subtract(value), -
+#### multiply(Matrix), multiply(value), *
+#### dot(Matrix)
+#### transpose()
+#### applyFunction(function)
+#### fill(value)
+#### get(y,x)
+#### put(y,x,value)
+#### cout << Matrix;
 
 ## example :
     Matrix<int> A(4,5);
