@@ -1,6 +1,10 @@
 # Matrix
 Matrix class in C++ with operators implemented.
 
+# Compile
+
+You need to compile using the flag `-std=c++11`
+
 # Usage
 
     #include "Matrix.h"
@@ -44,5 +48,5 @@ Matrix class in C++ with operators implemented.
     // you can combine operation :
 
     Matrix<int> D = (A+B).dot(C).applyFunction(multiplyBy2Function);
-    
+
     cout << D << endl;
