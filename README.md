@@ -38,6 +38,10 @@ You need to compile using the flag `-std=c++11`
     Matrix<int> D = B.dot(C);
     Matrix<int> D = A.transpose();
 
+    A += B;
+    A -= B;
+    A *= B;
+
     int multiplyBy2Function(int x)
     {
         return 2*x;
