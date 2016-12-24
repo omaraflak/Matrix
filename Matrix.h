@@ -286,7 +286,7 @@ void Matrix<T>::print(std::ostream &flux) const
         {
             flux << array[i][j];
             ss << array[i][j];
-            for (int k=0 ; k<maxLength[j]-ss.str().size()+3 ; k++)
+            for (int k=0 ; k<maxLength[j]-ss.str().size()+1 ; k++)
             {
                 flux << " ";
             }
