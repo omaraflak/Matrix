@@ -15,7 +15,7 @@ public:
 
     void fill(T value);
     T get(int h, int w) const;
-    void put(int h, int w, int value);
+    void put(int h, int w, T value);
 
     Matrix add(T value);
     Matrix subtract(T value);
@@ -28,6 +28,7 @@ public:
     Matrix transpose() const;
 
     Matrix applyFunction(T (*function)(T)) const;
+    Matrix subMatrix(int startH, int startW, int h, int w) const;
     void print(std::ostream &flux) const;
 
     bool operator==(Matrix const &m);
@@ -100,7 +101,7 @@ T Matrix<T>::get(int h, int w) const
 }
 
 template <class T>
-void Matrix<T>::put(int h, int w, int value)
+void Matrix<T>::put(int h, int w, T value)
 {
     this->array[h][w] = value;
 }
@@ -259,6 +260,27 @@ Matrix<T> Matrix<T>::applyFunction(T (*function)(T)) const
     }
 
     return result;
+}
+
+template <class T>
+Matrix<T> Matrix<T>::subMatrix(int startH, int startW, int h, int w) const
+{
+    if(startH+h<=this->height && startW+w<=this->width)
+    {
+        Matrix<T> result(h,w);
+        for (int i=startH ; i<startH+h ; i++)
+        {
+            for (int j=startW ; j<startW+w ; j++)
+            {
+                result.put(i-startH, j-startW, this->array[i][j]);
+            }
+        }
+        return result;
+    }
+    else
+    {
+        return Matrix<T>(-1,-1);
+    }
 }
 
 template <class T>
