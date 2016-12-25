@@ -25,6 +25,7 @@ You need to compile using the flag `-std=c++11`
 #### fill(value)
 #### get(y,x)
 #### put(y,x,value)
+#### subMatrix(fromY, fromX, height, width)
 #### cout << Matrix;
 
 ## example :
@@ -37,6 +38,7 @@ You need to compile using the flag `-std=c++11`
     Matrix<int> D = A * B;  // = A.multiply(B)
     Matrix<int> D = B.dot(C);
     Matrix<int> D = A.transpose();
+    Matrix<int> D = A.subMatrix(0,0, 2,2); // get a sub matrix of size 2x2 from coordinates 0;0 in A
 
     A += B;
     A -= B;
