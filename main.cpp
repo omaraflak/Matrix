@@ -17,5 +17,6 @@ int main(int argc, char *argv[])
 
     Matrix<double> A(5, 5);
     A = A.applyFunction(random);
+
     cout << A << endl;
 }
