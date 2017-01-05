@@ -10,7 +10,7 @@ class Matrix
 {
 public:
     Matrix<T>(int height, int width);
-    Matrix<T>(std::vector<std::vector<T> > array);
+    Matrix<T>(std::vector<std::vector<T> > &array);
     Matrix<T>();
 
     void fill(T value);
@@ -72,11 +72,14 @@ Matrix<T>::Matrix(int height, int width)
 }
 
 template <class T>
-Matrix<T>::Matrix(std::vector<std::vector<T> > array)
+Matrix<T>::Matrix(std::vector<std::vector<T> > &array)
 {
-    this->height = array.size();
-    this->width = array[0].size();
-    this->array = array;
+    if(array.size()!=0)
+    {
+        this->height = array.size();
+        this->width = array[0].size();
+        this->array = array;
+    }
 }
 
 template <class T>
