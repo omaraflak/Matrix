@@ -31,17 +31,32 @@ public:
     Matrix subMatrix(int startH, int startW, int h, int w) const;
     void print(std::ostream &flux) const;
 
+    int getHeight();
+    int getWidth();
+
     bool operator==(Matrix const &m);
     bool operator!=(Matrix const &m);
     void operator+=(Matrix const &m);
     void operator-=(Matrix const &m);
     void operator*=(Matrix const &m);
+    void operator+=(T const &m);
+    void operator-=(T const &m);
+    void operator*=(T const &m);
 
 private:
     std::vector<std::vector<T> > array;
     int height;
     int width;
 };
+
+template <class T>
+Matrix<T> operator+(Matrix<T> const &a, T const &b);
+
+template <class T>
+Matrix<T> operator-(Matrix<T> const &a, T const &b);
+
+template <class T>
+Matrix<T> operator*(Matrix<T> const &a, T const &b);
 
 template <class T>
 Matrix<T> operator+(Matrix<T> const &a, Matrix<T> const &b);
@@ -322,6 +337,18 @@ void Matrix<T>::print(std::ostream &flux) const
 }
 
 template <class T>
+int Matrix<T>::getHeight()
+{
+    return this->height;
+}
+
+template <class T>
+int Matrix<T>::getWidth()
+{
+    return this->width;
+}
+
+template <class T>
 bool Matrix<T>::operator==(Matrix const &m)
 {
     if(height==m.height && width==m.width)
@@ -363,6 +390,48 @@ template <class T>
 void Matrix<T>::operator*=(Matrix const &m)
 {
     this->array = multiply(m).array;
+}
+
+template <class T>
+void Matrix<T>::operator+=(T const &m)
+{
+    this->array = add(m).array;
+}
+
+template <class T>
+void Matrix<T>::operator-=(T const &m)
+{
+    this->array = subtract(m).array;
+}
+
+template <class T>
+void Matrix<T>::operator*=(T const &m)
+{
+    this->array = multiply(m).array;
+}
+
+template <class T>
+Matrix<T> operator+(Matrix<T> const &a, T const &b)
+{
+    Matrix<T> result = a;
+    result.add(b);
+    return result;
+}
+
+template <class T>
+Matrix<T> operator-(Matrix<T> const &a, T const &b)
+{
+    Matrix<T> result = a;
+    result.subtract(b);
+    return result;
+}
+
+template <class T>
+Matrix<T> operator*(Matrix<T> const &a, T const &b)
+{
+    Matrix<T> result = a;
+    result.multiply(b);
+    return result;
 }
 
 template <class T>
