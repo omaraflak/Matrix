@@ -31,6 +31,9 @@ public:
     Matrix subMatrix(int startH, int startW, int h, int w) const;
     void print(std::ostream &flux) const;
 
+    int getHeight();
+    int getWidth();
+
     bool operator==(Matrix const &m);
     bool operator!=(Matrix const &m);
     void operator+=(Matrix const &m);
@@ -328,6 +331,18 @@ void Matrix<T>::print(std::ostream &flux) const
         }
         flux << std::endl;
     }
+}
+
+template <class T>
+int Matrix<T>::getHeight()
+{
+    return this->height;
+}
+
+template <class T>
+int Matrix<T>::getWidth()
+{
+    return this->width;
 }
 
 template <class T>
