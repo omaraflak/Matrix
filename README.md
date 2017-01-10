@@ -47,7 +47,7 @@ Matrix class in C++ with operators implemented.
 
     Matrix<int> D = A.applyFunction(multiplyBy2Function);
 
-    // you can combine operation :
+    // you can combine operations :
 
     Matrix<int> D = (A+B).dot(C).applyFunction(multiplyBy2Function);
 
