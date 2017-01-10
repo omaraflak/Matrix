@@ -13,32 +13,32 @@ public:
     Matrix<T>(std::vector<std::vector<T> > &array);
     Matrix<T>();
 
-    void fill(T value);
-    T get(int h, int w) const;
-    void put(int h, int w, T value);
-
-    Matrix add(T value);
-    Matrix subtract(T value);
-    Matrix multiply(T value);
-
-    Matrix add(Matrix const &m) const;
-    Matrix subtract(Matrix const &m) const;
-    Matrix multiply(Matrix const &m) const;
-    Matrix dot(Matrix const &m) const;
-    Matrix transpose() const;
-
-    Matrix applyFunction(T (*function)(T)) const;
-    Matrix subMatrix(int startH, int startW, int h, int w) const;
-    void print(std::ostream &flux) const;
-
     int getHeight();
     int getWidth();
 
-    bool operator==(Matrix const &m);
-    bool operator!=(Matrix const &m);
-    void operator+=(Matrix const &m);
-    void operator-=(Matrix const &m);
-    void operator*=(Matrix const &m);
+    void fill(T const &value);
+    void put(int h, int w, T const &value);
+    T get(int h, int w) const;
+
+    Matrix<T> add(T const &value);
+    Matrix<T> subtract(T const &value);
+    Matrix<T> multiply(T const &value);
+
+    Matrix<T> add(Matrix<T> const &m) const;
+    Matrix<T> subtract(Matrix<T> const &m) const;
+    Matrix<T> multiply(Matrix<T> const &m) const;
+    Matrix<T> dot(Matrix<T> const &m) const;
+    Matrix<T> transpose() const;
+
+    Matrix<T> applyFunction(T (*function)(T)) const;
+    Matrix<T> subMatrix(int startH, int startW, int h, int w) const;
+    void print(std::ostream &flux) const;
+
+    bool operator==(Matrix<T> const &m);
+    bool operator!=(Matrix<T> const &m);
+    void operator+=(Matrix<T> const &m);
+    void operator-=(Matrix<T> const &m);
+    void operator*=(Matrix<T> const &m);
     void operator+=(T const &m);
     void operator-=(T const &m);
     void operator*=(T const &m);
@@ -50,15 +50,6 @@ private:
 };
 
 template <class T>
-Matrix<T> operator+(Matrix<T> const &a, T const &b);
-
-template <class T>
-Matrix<T> operator-(Matrix<T> const &a, T const &b);
-
-template <class T>
-Matrix<T> operator*(Matrix<T> const &a, T const &b);
-
-template <class T>
 Matrix<T> operator+(Matrix<T> const &a, Matrix<T> const &b);
 
 template <class T>
@@ -66,6 +57,15 @@ Matrix<T> operator-(Matrix<T> const &a, Matrix<T> const &b);
 
 template <class T>
 Matrix<T> operator*(Matrix<T> const &a, Matrix<T> const &b);
+
+template <class T>
+Matrix<T> operator+(Matrix<T> const &a, T const &b);
+
+template <class T>
+Matrix<T> operator-(Matrix<T> const &a, T const &b);
+
+template <class T>
+Matrix<T> operator*(Matrix<T> const &a, T const &b);
 
 template <class T>
 std::ostream& operator<<(std::ostream &flux, Matrix<T> const &m);
@@ -78,12 +78,7 @@ Matrix<T>::Matrix(int height, int width)
 {
     this->height = height;
     this->width = width;
-
-    this->array.resize(height);
-    for (int i=0 ; i<height ; i++)
-    {
-        this->array[i].resize(width, 0);
-    }
+    this->array = std::vector<std::vector<T> >(height, std::vector<T>(width));
 }
 
 template <class T>
@@ -101,37 +96,51 @@ template <class T>
 Matrix<T>::Matrix(){}
 
 template <class T>
-void Matrix<T>::fill(T value)
+int Matrix<T>::getHeight()
 {
-    for (int i=0 ; i<height ; i++)
+    return height;
+}
+
+template <class T>
+int Matrix<T>::getWidth()
+{
+    return width;
+}
+
+template <class T>
+void Matrix<T>::fill(T const &value)
+{
+    int i,j;
+    for (i=0 ; i<height ; i++)
     {
-        for (int j=0 ; j<width ; j++)
+        for (j=0 ; j<width ; j++)
         {
-            this->array[i][j] = value;
+            array[i][j] = value;
         }
     }
+}
+
+template <class T>
+void Matrix<T>::put(int h, int w, T const &value)
+{
+    array[h][w] = value;
 }
 
 template <class T>
 T Matrix<T>::get(int h, int w) const
 {
-    return this->array[h][w];
+    return array[h][w];
 }
 
 template <class T>
-void Matrix<T>::put(int h, int w, T value)
+Matrix<T> Matrix<T>::add(T const &value)
 {
-    this->array[h][w] = value;
-}
-
-template <class T>
-Matrix<T> Matrix<T>::add(T value)
-{
-    for (int i=0 ; i<height ; i++)
+    int i,j;
+    for (i=0 ; i<height ; i++)
     {
-        for (int j=0 ; j<width ; j++)
+        for (j=0 ; j<width ; j++)
         {
-            this->array[i][j] += value;
+            array[i][j] += value;
         }
     }
 
@@ -139,13 +148,14 @@ Matrix<T> Matrix<T>::add(T value)
 }
 
 template <class T>
-Matrix<T> Matrix<T>::subtract(T value)
+Matrix<T> Matrix<T>::subtract(T const &value)
 {
-    for (int i=0 ; i<height ; i++)
+    int i,j;
+    for (i=0 ; i<height ; i++)
     {
-        for (int j=0 ; j<width ; j++)
+        for (j=0 ; j<width ; j++)
         {
-            this->array[i][j] -= value;
+            array[i][j] -= value;
         }
     }
 
@@ -153,13 +163,14 @@ Matrix<T> Matrix<T>::subtract(T value)
 }
 
 template <class T>
-Matrix<T> Matrix<T>::multiply(T value)
+Matrix<T> Matrix<T>::multiply(T const &value)
 {
-    for (int i=0 ; i<height ; i++)
+    int i,j;
+    for (i=0 ; i<height ; i++)
     {
-        for (int j=0 ; j<width ; j++)
+        for (j=0 ; j<width ; j++)
         {
-            this->array[i][j] *= value;
+            array[i][j] *= value;
         }
     }
 
@@ -169,64 +180,64 @@ Matrix<T> Matrix<T>::multiply(T value)
 template <class T>
 Matrix<T> Matrix<T>::add(Matrix const &m) const
 {
-    if(height==m.height && width==m.width)
+    if(height!=m.height || width!=m.width)
     {
-        Matrix result(height, width);
-        for (int i=0 ; i<height ; i++)
+        return Matrix<T>(0,0);
+    }
+
+    Matrix result(height, width);
+    int i,j;
+
+    for (i=0 ; i<height ; i++)
+    {
+        for (j=0 ; j<width ; j++)
         {
-            for (int j=0 ; j<width ; j++)
-            {
-                result.array[i][j] = this->array[i][j] + m.array[i][j];
-            }
+            result.array[i][j] = array[i][j] + m.array[i][j];
         }
-        return result;
     }
-    else
-    {
-        return Matrix(0,0);
-    }
+    return result;
 }
 
 template <class T>
 Matrix<T> Matrix<T>::subtract(Matrix const &m) const
 {
-    if(height==m.height && width==m.width)
+    if(height!=m.height || width!=m.width)
     {
-        Matrix result(height, width);
-        for (int i=0 ; i<height ; i++)
+        return Matrix<T>(0,0);
+    }
+
+    Matrix result(height, width);
+    int i,j;
+
+    for (i=0 ; i<height ; i++)
+    {
+        for (j=0 ; j<width ; j++)
         {
-            for (int j=0 ; j<width ; j++)
-            {
-                result.array[i][j] = this->array[i][j] - m.array[i][j];
-            }
+            result.array[i][j] = array[i][j] - m.array[i][j];
         }
-        return result;
     }
-    else
-    {
-        return Matrix(0,0);
-    }
+    return result;
 }
 
 template <class T>
 Matrix<T> Matrix<T>::multiply(Matrix const &m) const
 {
-    if(height==m.height && width==m.width)
+    if(height!=m.height || width!=m.width)
     {
-        Matrix result(height, width);
-        for (int i=0 ; i<height ; i++)
+        return Matrix<T>(0,0);
+    }
+
+    Matrix result(height, width);
+    int i,j;
+
+    for (i=0 ; i<height ; i++)
+    {
+        for (j=0 ; j<width ; j++)
         {
-            for (int j=0 ; j<width ; j++)
-            {
-                result.array[i][j] = this->array[i][j] * m.array[i][j];
-            }
+            result.array[i][j] = array[i][j] * m.array[i][j];
         }
-        return result;
     }
-    else
-    {
-        return Matrix(0,0);
-    }
+    return result;
 }
 
 template <class T>
@@ -238,12 +249,12 @@ Matrix<T> Matrix<T>::dot(Matrix const &m) const
     }
 
     Matrix<T> result(height, m.width);
-    int w=0;
+    int i,j,h,w=0;
 
-    for (int i=0 ; i<m.width ; i++){
-        for (int j=0 ; j<m.height ; j++){
-            for (int h=0 ; h<height ; h++){
-                result.array[h][i] += this->array[h][w]*m.array[j][i];
+    for (i=0 ; i<m.width ; i++){
+        for (j=0 ; j<m.height ; j++){
+            for (h=0 ; h<height ; h++){
+                result.array[h][i] += array[h][w]*m.array[j][i];
             }
             w++;
         }
@@ -257,9 +268,11 @@ template <class T>
 Matrix<T> Matrix<T>::transpose() const
 {
     Matrix<T> result(width, height);
-    for (int i=0 ; i<result.height ; i++){
-        for (int j=0 ; j<result.width ; j++){
-            result.array[i][j] = this->array[j][i];
+    int i,j;
+
+    for (i=0 ; i<result.height ; i++){
+        for (j=0 ; j<result.width ; j++){
+            result.array[i][j] = array[j][i];
         }
     }
     return result;
@@ -269,10 +282,11 @@ template <class T>
 Matrix<T> Matrix<T>::applyFunction(T (*function)(T)) const
 {
     Matrix<T> result(height, width);
+    int i,j;
 
-    for (int i=0 ; i<height ; i++)
+    for (i=0 ; i<height ; i++)
     {
-        for (int j=0 ; j<width ; j++){
+        for (j=0 ; j<width ; j++){
             result.array[i][j] = (*function)(array[i][j]);
         }
     }
@@ -283,35 +297,36 @@ Matrix<T> Matrix<T>::applyFunction(T (*function)(T)) const
 template <class T>
 Matrix<T> Matrix<T>::subMatrix(int startH, int startW, int h, int w) const
 {
-    if(startH+h<=this->height && startW+w<=this->width)
+    if(startH+h>height || startW+w>width)
     {
-        Matrix<T> result(h,w);
-        for (int i=startH ; i<startH+h ; i++)
+        return Matrix<T>(0,0);
+    }
+
+    Matrix<T> result(h,w);
+    int i,j;
+
+    for (i=startH ; i<startH+h ; i++)
+    {
+        for (j=startW ; j<startW+w ; j++)
         {
-            for (int j=startW ; j<startW+w ; j++)
-            {
-                result.put(i-startH, j-startW, this->array[i][j]);
-            }
+            result.put(i-startH, j-startW, array[i][j]);
         }
-        return result;
     }
-    else
-    {
-        return Matrix<T>(-1,-1);
-    }
+    return result;
 }
 
 template <class T>
 void Matrix<T>::print(std::ostream &flux) const
 {
+    int i,j;
     int maxLength[width] = {};
     std::stringstream ss;
 
-    for (int i=0 ; i<height ; i++)
+    for (i=0 ; i<height ; i++)
     {
-        for (int j=0 ; j<width ; j++)
+        for (j=0 ; j<width ; j++)
         {
-            ss << this->array[i][j];
+            ss << array[i][j];
             if(maxLength[j] < ss.str().size())
             {
                 maxLength[j] = ss.str().size();
@@ -320,9 +335,9 @@ void Matrix<T>::print(std::ostream &flux) const
         }
     }
 
-    for (int i=0 ; i<height ; i++)
+    for (i=0 ; i<height ; i++)
     {
-        for (int j=0 ; j<width ; j++)
+        for (j=0 ; j<width ; j++)
         {
             flux << array[i][j];
             ss << array[i][j];
@@ -337,27 +352,16 @@ void Matrix<T>::print(std::ostream &flux) const
 }
 
 template <class T>
-int Matrix<T>::getHeight()
-{
-    return this->height;
-}
-
-template <class T>
-int Matrix<T>::getWidth()
-{
-    return this->width;
-}
-
-template <class T>
 bool Matrix<T>::operator==(Matrix const &m)
 {
     if(height==m.height && width==m.width)
     {
-        for (int i=0 ; i<height ; i++)
+        int i,j;
+        for (i=0 ; i<height ; i++)
         {
-            for (int j=0 ; j<width ; j++)
+            for (j=0 ; j<width ; j++)
             {
-                if(this->array[i][j]!=m.array[i][j])
+                if(array[i][j]!=m.array[i][j])
                 {
                     return false;
                 }
@@ -395,43 +399,19 @@ void Matrix<T>::operator*=(Matrix const &m)
 template <class T>
 void Matrix<T>::operator+=(T const &m)
 {
-    this->array = add(m).array;
+    add(m);
 }
 
 template <class T>
 void Matrix<T>::operator-=(T const &m)
 {
-    this->array = subtract(m).array;
+    subtract(m);
 }
 
 template <class T>
 void Matrix<T>::operator*=(T const &m)
 {
-    this->array = multiply(m).array;
-}
-
-template <class T>
-Matrix<T> operator+(Matrix<T> const &a, T const &b)
-{
-    Matrix<T> result = a;
-    result.add(b);
-    return result;
-}
-
-template <class T>
-Matrix<T> operator-(Matrix<T> const &a, T const &b)
-{
-    Matrix<T> result = a;
-    result.subtract(b);
-    return result;
-}
-
-template <class T>
-Matrix<T> operator*(Matrix<T> const &a, T const &b)
-{
-    Matrix<T> result = a;
-    result.multiply(b);
-    return result;
+    multiply(m);
 }
 
 template <class T>
@@ -450,6 +430,28 @@ template <class T>
 Matrix<T> operator*(Matrix<T> const &a, Matrix<T> const &b)
 {
     return a.multiply(b);
+}
+
+
+template <class T>
+Matrix<T> operator+(Matrix<T> const &a, T const &b)
+{
+    Matrix<T> result = a;
+    return result.add(b);
+}
+
+template <class T>
+Matrix<T> operator-(Matrix<T> const &a, T const &b)
+{
+    Matrix<T> result = a;
+    return result.subtract(b);
+}
+
+template <class T>
+Matrix<T> operator*(Matrix<T> const &a, T const &b)
+{
+    Matrix<T> result = a;
+    return result.multiply(b);
 }
 
 template <class T>
