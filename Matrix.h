@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <assert.h>
 
 template <class T>
 class Matrix
@@ -84,12 +85,10 @@ Matrix<T>::Matrix(int height, int width)
 template <class T>
 Matrix<T>::Matrix(std::vector<std::vector<T> > &array)
 {
-    if(array.size()!=0)
-    {
-        this->height = array.size();
-        this->width = array[0].size();
-        this->array = array;
-    }
+    assert(array.size()!=0);
+    this->height = array.size();
+    this->width = array[0].size();
+    this->array = array;
 }
 
 template <class T>
@@ -180,10 +179,7 @@ Matrix<T> Matrix<T>::multiply(T const &value)
 template <class T>
 Matrix<T> Matrix<T>::add(Matrix const &m) const
 {
-    if(height!=m.height || width!=m.width)
-    {
-        return Matrix<T>(0,0);
-    }
+    assert(height==m.height && width==m.width);
 
     Matrix result(height, width);
     int i,j;
@@ -195,16 +191,14 @@ Matrix<T> Matrix<T>::add(Matrix const &m) const
             result.array[i][j] = array[i][j] + m.array[i][j];
         }
     }
+
     return result;
 }
 
 template <class T>
 Matrix<T> Matrix<T>::subtract(Matrix const &m) const
 {
-    if(height!=m.height || width!=m.width)
-    {
-        return Matrix<T>(0,0);
-    }
+    assert(height==m.height && width==m.width);
 
     Matrix result(height, width);
     int i,j;
@@ -222,10 +216,7 @@ Matrix<T> Matrix<T>::subtract(Matrix const &m) const
 template <class T>
 Matrix<T> Matrix<T>::multiply(Matrix const &m) const
 {
-    if(height!=m.height || width!=m.width)
-    {
-        return Matrix<T>(0,0);
-    }
+    assert(height==m.height && width==m.width);
 
     Matrix result(height, width);
     int i,j;
@@ -243,22 +234,24 @@ Matrix<T> Matrix<T>::multiply(Matrix const &m) const
 template <class T>
 Matrix<T> Matrix<T>::dot(Matrix const &m) const
 {
-    if(width!=m.height)
+    assert(width==m.height);
+
+    int i,j,h, mwidth = m.width;
+    T w=0;
+
+    Matrix<T> result(height, mwidth);
+
+    for (i=0 ; i<height ; i++)
     {
-        return Matrix<T>(0,0);
-    }
-
-    Matrix<T> result(height, m.width);
-    int i,j,h,w=0;
-
-    for (i=0 ; i<m.width ; i++){
-        for (j=0 ; j<m.height ; j++){
-            for (h=0 ; h<height ; h++){
-                result.array[h][i] += array[h][w]*m.array[j][i];
+        for (j=0 ; j<mwidth ; j++)
+        {
+            for (h=0 ; h<width ; h++)
+            {
+                w += array[i][h]*m.array[h][j];
             }
-            w++;
+            result.array[i][j] = w;
+            w=0;
         }
-        w=0;
     }
 
     return result;
@@ -270,8 +263,8 @@ Matrix<T> Matrix<T>::transpose() const
     Matrix<T> result(width, height);
     int i,j;
 
-    for (i=0 ; i<result.height ; i++){
-        for (j=0 ; j<result.width ; j++){
+    for (i=0 ; i<width ; i++){
+        for (j=0 ; j<height ; j++){
             result.array[i][j] = array[j][i];
         }
     }
@@ -297,10 +290,7 @@ Matrix<T> Matrix<T>::applyFunction(T (*function)(T)) const
 template <class T>
 Matrix<T> Matrix<T>::subMatrix(int startH, int startW, int h, int w) const
 {
-    if(startH+h>height || startW+w>width)
-    {
-        return Matrix<T>(0,0);
-    }
+    assert(startH+h<=height && startW+w<=width);
 
     Matrix<T> result(h,w);
     int i,j;
@@ -309,7 +299,7 @@ Matrix<T> Matrix<T>::subMatrix(int startH, int startW, int h, int w) const
     {
         for (j=startW ; j<startW+w ; j++)
         {
-            result.put(i-startH, j-startW, array[i][j]);
+            result.array[i-startH][j-startW] = array[i][j];
         }
     }
     return result;

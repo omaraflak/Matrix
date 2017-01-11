@@ -15,8 +15,20 @@ int main(int argc, char *argv[])
 {
     srand (time(NULL));
 
-    Matrix<double> A(5, 5);
-    A = A.applyFunction(random);
+    Matrix<double> A(100, 100), B(100, 100);
 
-    cout << A << endl;
+    A = A.applyFunction(random);
+    B = B.applyFunction(random);
+
+    clock_t begin = clock();
+
+    for (int i=0 ; i<1000 ; i++)
+    {
+        A.add(B);
+    }
+
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+    cout << "time: " << elapsed_secs << " ms" << endl;
 }
