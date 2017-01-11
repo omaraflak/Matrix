@@ -24,11 +24,11 @@ int main(int argc, char *argv[])
 
     for (int i=0 ; i<1000 ; i++)
     {
-        A.add(B);
+        A.dot(B);
     }
 
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-    cout << "time: " << elapsed_secs << " ms" << endl;
+    cout << "time: " << elapsed_secs/1000.0 << " s" << endl;
 }
