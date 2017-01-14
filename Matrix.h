@@ -43,6 +43,7 @@ public:
     void operator+=(T const &m);
     void operator-=(T const &m);
     void operator*=(T const &m);
+    T& operator()(int y, int x);
 
 private:
     std::vector<std::vector<T> > array;
@@ -402,6 +403,13 @@ template <class T>
 void Matrix<T>::operator*=(T const &m)
 {
     multiply(m);
+}
+
+template <class T>
+T& Matrix<T>::operator()(int y, int x)
+{
+    assert(y<height && x<width);
+    return array[y][x];
 }
 
 template <class T>
