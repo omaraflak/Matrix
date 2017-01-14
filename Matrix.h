@@ -430,7 +430,6 @@ Matrix<T> operator*(Matrix<T> const &a, Matrix<T> const &b)
     return a.multiply(b);
 }
 
-
 template <class T>
 Matrix<T> operator+(Matrix<T> const &a, T const &b)
 {
