@@ -11,7 +11,7 @@ class Matrix
 {
 public:
     Matrix<T>(int height, int width);
-    Matrix<T>(std::vector<std::vector<T> > &array);
+    Matrix<T>(std::vector<std::vector<T> > const &array);
     Matrix<T>();
 
     int getHeight();
@@ -84,7 +84,7 @@ Matrix<T>::Matrix(int height, int width)
 }
 
 template <class T>
-Matrix<T>::Matrix(std::vector<std::vector<T> > &array)
+Matrix<T>::Matrix(std::vector<std::vector<T> > const &array)
 {
     assert(array.size()!=0);
     this->height = array.size();
