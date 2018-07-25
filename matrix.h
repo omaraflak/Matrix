@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <assert.h>
+#include <cassert>
 
 template <class T>
 class Matrix
