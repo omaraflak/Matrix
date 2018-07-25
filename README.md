@@ -14,20 +14,20 @@ Matrix<type_of_variable> matrix(vector<vector<type_of_variable> > &array);
 Matrix<type_of_variable> matrix();
 ```
 
-## Methods available :
-#### add(Matrix), add(value), +
-#### subtract(Matrix), subtract(value), -
-#### multiply(Matrix), multiply(value), *
-#### dot(Matrix)
-#### transpose()
-#### applyFunction(function)
-#### fill(value)
-#### get(y,x)
-#### put(y,x,value)
-#### subMatrix(fromY, fromX, height, width)
-#### cout << Matrix;
+# Operators
 
-## example :
+```c++
+Matrix<int> a,b,c;
+int z;
+
+c = a + b;
+c = a - b;
+c = a * b;
+c = z * a;
+c = a / z;
+```
+
+# Example
 
 ```c++
 Matrix<int> A(4,5);
@@ -55,5 +55,5 @@ Matrix<int> D = A.applyFunction(multiplyByTwo);
 
 Matrix<int> D = (A+B).dot(C).applyFunction(multiplyByTwo);
 
-cout << D << endl;
+std::cout << D << std::endl;
 ```
