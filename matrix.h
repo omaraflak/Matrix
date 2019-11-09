@@ -48,6 +48,8 @@ class Matrix{
         Matrix<T> operator*=(const T &m);
         Matrix<T> operator/=(const T &m);
         T& operator()(int y, int x);
+
+        Matrix<T> sign() const;
 };
 
 template <class T> Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b);
@@ -375,3 +377,44 @@ Matrix<T> random(int height, int width){
     }
     return M;
 }
+template <class T>
+Matrix<T> Matrix<T>::sign() const{
+    Matrix<T> result(height, width);
+
+    for (int i=0 ; i<height ; i++){
+        for (int j=0 ; j<width ; j++){
+            if(array[i][j] > 0) result.array[i][j] =  1;
+            else if(array[i][j] < 0) result.array[i][j] =  -1;
+            else result.array[i][j] =  0;
+        }
+    }
+    return result;
+}
+
+
+template <class T = float>
+Matrix<T> random_like(const Matrix<T> other){
+    srand(time(NULL));
+    Matrix<T> M(other.getHeight(), other.getWidth());
+    for (size_t i = 0; i < other.getHeight(); i++){
+        for (size_t j = 0; j < other.getWidth(); j++){
+            float random = fmod(rand() / 5136.9 , 1);
+            M.put(i, j,  random);
+        }
+        
+    }
+    return M;
+}
+
+template <class T>
+Matrix<T> ones(int height, int width){
+    Matrix<T> M(height, width);
+    M.fill(1);
+    return M;
+}
+
+template <class T>
+Matrix<T> ones_like(const Matrix<T>& other){
+    return ones<T>(other.getHeight(), other.getWidth());
+}
+
