@@ -5,6 +5,8 @@
 #include <sstream>
 #include <vector>
 #include <stdexcept>
+#include <cstdlib>
+#include <math.h>
 
 template <class T>
 class Matrix{
@@ -358,4 +360,18 @@ template <class T>
 std::ostream& operator<<(std::ostream &flux, const Matrix<T>& m){
     m.print(flux);
     return flux;
+}
+
+template <class T = float>
+Matrix<T> random(int height, int width){
+    srand(time(NULL));
+    Matrix<T> M(height, width);
+    for (size_t i = 0; i < height; i++){
+        for (size_t j = 0; j < width; j++){
+            float random = fmod(rand() / 5136.9 , 1);
+            M.put(i, j,  random);
+        }
+        
+    }
+    return M;
 }
