@@ -50,6 +50,11 @@ class Matrix{
         T& operator()(int y, int x);
 
         Matrix<T> sign() const;
+        T max();
+        T min();
+
+        // int* argmax();
+        // int* argmin();
 };
 
 template <class T> Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b);
@@ -418,3 +423,28 @@ Matrix<T> ones_like(const Matrix<T>& other){
     return ones<T>(other.getHeight(), other.getWidth());
 }
 
+template <class T>
+T Matrix<T>::max(){
+    T max = array[0][0];
+    for (int i=0 ; i<height ; i++){
+        for (int j=0 ; j<width ; j++){
+            if(max < array[i][j]){
+                max = array[i][j];
+            }
+        }
+    }
+    return max;
+}
+
+template <class T>
+T Matrix<T>::min(){
+    T min = array[0][0];
+    for (int i=0 ; i<height ; i++){
+        for (int j=0 ; j<width ; j++){
+            if(min > array[i][j]){
+                min = array[i][j];
+            }
+        }
+    }
+    return min;
+}
