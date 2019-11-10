@@ -47,14 +47,23 @@ class Matrix{
         Matrix<T> operator*=(const Matrix<T>& m);
         Matrix<T> operator*=(const T &m);
         Matrix<T> operator/=(const T &m);
+        
+        
         T& operator()(int y, int x);
+        Matrix<T> row(int starty = 0, int endy = -1);
+        Matrix<T> col(int startx = 0, int endx = -1);
 
         Matrix<T> sign() const;
         T max();
         T min();
 
-        // int* argmax();
-        // int* argmin();
+        // const T sum() const;
+        // const T mean() const;
+        // const T median() const;
+        // Matrix<t> sqrt() const;
+
+        const int* argmax() const;
+        const int* argmin() const;
 };
 
 template <class T> Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b);
@@ -339,6 +348,37 @@ T& Matrix<T>::operator()(int y, int x){
     return array[y][x];
 }
 
+
+template <class T>
+Matrix<T> Matrix<T>::row(int starty, int endy){
+    if(endy == -1) endy = height - 1;
+    if(((starty < 0 || starty >= height) && (endy < 1 || endy >= height)) || (starty > endy))
+        throw std::invalid_argument("Error array slicing parameter.");
+    
+    Matrix<T> M(endy - starty + 1, width);
+    for(int i = starty, y = 0; i<= endy; ++i, ++y){
+        for (int j = 0; j < width; ++j){
+            M.put(y, j, array[i][j]);
+        }
+    }
+    return M;
+}
+
+template <class T>
+Matrix<T> Matrix<T>::col(int startx, int endx){
+    if(endx == -1) endx = width - 1;
+    if(((startx < 0 || startx >= width) && (endx < 1 || endx >= width)) || (startx > endx))
+        throw std::invalid_argument("Error array slicing parameter.");
+    
+    Matrix<T> M(height, endx - startx + 1);
+    for(int i = 0; i< height; ++i){
+        for (int j = startx, x = 0; j <= endx; ++j, ++x){
+            M.put(i, x, array[i][j]);
+        }
+    }
+    return M;
+}
+
 template <class T>
 Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b){
     return a.add(b);
@@ -371,11 +411,11 @@ std::ostream& operator<<(std::ostream &flux, const Matrix<T>& m){
 
 template <class T = float>
 Matrix<T> random(int height, int width){
-    srand(time(NULL));
+    srand(time(0));
     Matrix<T> M(height, width);
     for (size_t i = 0; i < height; i++){
         for (size_t j = 0; j < width; j++){
-            float random = fmod(rand() / 5136.9 , 1);
+            float random = fmod( rand() / 5136.9 , 1);
             M.put(i, j,  random);
         }
         
@@ -447,4 +487,32 @@ T Matrix<T>::min(){
         }
     }
     return min;
+}
+
+template<class T>
+const int* Matrix<T>::argmax()const{
+    int *index = new int[2];
+    for (int i=0 ; i<height ; i++){
+        for (int j=0 ; j<width ; j++){
+            if(array[i][j] > array[index[0]][index[1]]){
+                index[0] = i;
+                index[1] = j;
+            }
+        }
+    }
+    return index;
+}
+
+template<class T>
+const int* Matrix<T>::argmin()const{
+    int *index = new int[2];
+    for (int i=0 ; i<height ; i++){
+        for (int j=0 ; j<width ; j++){
+            if(array[i][j] < array[index[0]][index[1]]){
+                index[0] = i;
+                index[1] = j;
+            }
+        }
+    }
+    return index;
 }
