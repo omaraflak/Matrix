@@ -57,3 +57,9 @@ Matrix<int> D = (A+B).dot(C).applyFunction(multiplyByTwo);
 
 std::cout << D << std::endl;
 ```
+
+# How to compile and run
+```makefile
+make compile
+make run
+```
